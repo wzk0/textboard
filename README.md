@@ -8,7 +8,7 @@
 
 ## Demo
 
-wait
+https://textboard-production.up.railway.app
 
 ## 用法
 
