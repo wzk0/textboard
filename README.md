@@ -10,6 +10,8 @@
 
 https://textboard-production.up.railway.app
 
+> 已经关了, 上线之后不知道是谁在一直刷...
+
 ## 用法
 
 fork此仓库或直接clone在本地, 随后修改`app.py`中第七行的`pwd`变量.

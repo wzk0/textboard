@@ -42,7 +42,7 @@ def index():
 			text=request.form.get('text')
 			filename=analyse(text)
 			return render_template('result.html',look_url='/look/'+filename,raw_url='/raw/'+filename,filename=filename,last_name=filename.split('.')[-1][:-1])
-		return render_template('index.html',num=len(os.listdir('data/post')))
+		return render_template('index.html',num=len(os.listdir('data/post'))-1)
 	except:
 		return render_template('404.html'),404
 
