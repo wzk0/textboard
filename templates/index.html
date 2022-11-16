@@ -4,16 +4,24 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<title>Text Board</title>
+	<title>Share Your Text! - Text Board</title>
 </head>
 <article class="markdown-body">
 <body>
-<h1>Share Your Text!</h1><br>
-<code>一个快速记录或分享纯文本, 且无审核的开源工具. 你的文本在此将<b>无加密</b>地储存在服务器端.</code><br><br>
-<form method="post"><br>
-<textarea class="k" required="" name="text" id="text" wrap="hard" autofocus placeholder="点此输入. 第一行请输入后缀名, 如: txt"></textarea><br><br>
-<center><br><input class="b" type="submit" value="写完了"></center>
-</form>
+<h1>Text Board</h1><br>
+<form method="post"><br><b><li>编辑区:</b></li><br><br>
+<textarea class="k" required="" name="text" id="text" wrap="hard" autofocus placeholder="点此输入. 首行请输入后缀名, 如: txt"></textarea><br><br>
+<center><br><input class="b" type="submit" value="写完了"></center><br>
+</form><br><br><b><li>一个完整的例子:</li></b><br><br>
+<pre>py
+print('将会为你创建一个随机文件名(长度为6)的py文件, 文件内容就是这些啦!')
+a=1
+b=2
+if a==b:
+	print('不可能的')
+else:
+	pass
+</pre>
 </body>
 <script>
     var textarea = document.querySelector('textarea');
@@ -22,7 +30,7 @@
         textarea.style.height = '100px';
         textarea.style.height = e.target.scrollHeight + 'px';
     });
-</script><br>
-<br><center><b>目前已储存文本数量: {{ num }}个 ‧ <a href="https://github.com/wzk0/textboard">仓库地址</a></b></center>
+</script>
+<br><center><hr><br><br><code>一个快速记录或分享纯文本, 且<b>无审核</b>的开源工具. 你的文本在此将<b>无加密</b>地储存在服务器端.</code><br><br><br><b>已储存文本数量: {{ num }}个 ‧ <a href="https://github.com/wzk0/textboard">点此查看源代码</a></b></center>
 </article>
 </html>

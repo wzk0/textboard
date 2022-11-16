@@ -73,9 +73,9 @@ def pnf(e):
 def packup(passwd):
 	global pwd
 	if passwd==pwd:
-		with open('ls','w')as f:
+		with open('ls.txt','w')as f:
 			f.write('\n'.join(os.listdir('data/post')))
-		return send_from_directory('.','ls')
+		return send_from_directory('.','ls.txt')
 	else:
 		return render_template('404.html'),404
 

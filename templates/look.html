@@ -1091,15 +1091,16 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}</style>
-	<title>{{ filename }}</title>
+	<title>{{ filename }} - Text Board</title>
 </head>
 <article class="markdown-body">
 <body>
-<h1>Share Your Text!</h1><br>
+<h1>Text Board</h1><br>
 </body>
-<code>此文件创建于: {{ time }}</code><br><br>
-<code>此文件大小: {{ size }}</code><br><br>
-<code><a href="/raw/{{ filename }}">此文件直链</a></code><br><br>
+<code>文件名: {{ filename }}</code><br><br>
+<code>创建于: {{ time }}</code><br><br>
+<code>文本大小: {{ size }}</code><br><br>
+<code><a href="/raw/{{ filename }}">文本内容直链</a></code><br><br>
 <b>内容:</b><br><br>
 <pre>{{ text }}</pre>
 </article>
