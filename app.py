@@ -37,14 +37,12 @@ def analyse(s):
 ##以下是视图函数
 @app.route('/',methods=['POST', 'GET'])
 def index():
-	try:
-		if request.method=='POST':
-			text=request.form.get('text')
-			filename=analyse(text)
-			return render_template('result.html',look_url='/look/'+filename,raw_url='/raw/'+filename,filename=filename,last_name=filename.split('.')[-1][:-1])
-		return render_template('index.html',num=len(os.listdir('data/post')))
-	except:
-		return render_template('404.html'),404
+	if request.method=='POST':
+		text=request.form.get('text')
+		filename=analyse(text)
+		return render_template('result.html',look_url='/look/'+filename,raw_url='/raw/'+filename,filename=filename,last_name=filename.split('.')[-1][:-1])
+	return render_template('index.html',num=len(os.listdir('data/post')))
+		
 
 @app.route('/look/<string:filename>')
 def look(filename):
