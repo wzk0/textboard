@@ -1029,6 +1029,14 @@ body .markdown-body
   }
 }
 
+.bfb {
+    width: 80px;
+    height: 30px;
+    font-size: 15px;
+    border: 0px solid black;
+    border-radius: 5px;
+}
+
 .highlight {background-color:#fff;color:#333333;}
 .highlight .hll {background-color:#ffffcc;}
 .highlight .c{color:#999988;font-style:italic}
@@ -1095,13 +1103,20 @@ body .markdown-body
 </head>
 <article class="markdown-body">
 <body>
-<h1>Text Board</h1><br>
+<h1><code>Text Board</code></h1><br>
 </body>
-<code>文件名: {{ filename }}</code><br><br>
-<code>创建于: {{ time }}</code><br><br>
-<code>文本大小: {{ size }}</code><br><br>
+文件名: <code id="fn">{{ filename }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('fn')">复制名称</button><br><br>
+创建于: <code id="time">{{ time }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('time')">复制时间</button><br><br>
+文本大小: <code id="size">{{ size }}</code> <button style="cursor:pointer" class="bfb" onclick="copyById('size')">复制大小</button><br><br>
 <code><a href="/raw/{{ filename }}">文本内容直链</a></code><br><br>
-<b>内容:</b><br><br>
-<pre>{{ text }}</pre>
+<b>内容:</b><br><br><button style="cursor:pointer" class="bfb" onclick="copyById('ppp')">复制内容</button><br><br>
+<script type="text/javascript">
+    function copyById(text_id) {
+    var text=document.getElementById(text_id).innerText;
+    navigator.clipboard.writeText(text);
+  }
+</script>
+<pre id="ppp">{{ text }}</pre><br>
+<br><center><code><a href="/">写一篇</a></code></center>
 </article>
 </html>

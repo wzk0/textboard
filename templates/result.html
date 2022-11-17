@@ -8,9 +8,19 @@
 </head>
 <article class="markdown-body">
 <body>
-<h1>Text Board</h1><br><center><br>
-<b>现在可以使用 <a href="{{ raw_url }}">此链接</a> 来获取刚写好的{{ last_name }}文本内容直链.<br><br>
-<br>或使用 <a href="{{ look_url }}">此链接</a> 获取文本内容与信息.</b></center>
-</body>
+<h1><code>Text Board</code></h1><br>
+<b>随机生成的文件名: </b><code id="fn">{{ filename }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('fn')">复制名称</button><br><br><br>
+<script type="text/javascript">
+var a = document.domain;;
+</script>
+<div id="base_url">
+<b>此{{ last_name }}文本内容直链:</b><br><br><code><a id="raw_url" href="{{ raw_url }}"><script type="text/javascript">document.write(a);</script>{{ raw_url }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('raw_url')">复制链接</button><br><br>
+<br><b>查看文本内容与信息:</b><br><br><code><a id="look_url" href="{{ look_url }}"><script type="text/javascript">document.write(a);</script>{{ look_url }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('look_url')">复制名称</button><br><br>
+</body><br><br><center><code><a href="/">再写一篇</a></code></center><script type="text/javascript">
+    function copyById(text_id) {
+    var text=document.getElementById(text_id).innerText;
+    navigator.clipboard.writeText(text);
+  }
+</script>
 </article>
 </html>

@@ -26,8 +26,8 @@ def get_code(length):
 ##分析前端textarea传来的内容, 将第一行删去并得到文件名
 def analyse(s):
 	try:
-		name_all=str(''.join(get_code(6)))+'.'+str(s.split('\n')[0])
-		with open('data/post/'+name_all[:-1],'w')as f:
+		name_all=str(''.join(get_code(6)))+'.'+str(s.split('\n')[0])[:-1]
+		with open('data/post/'+name_all,'w')as f:
 			f.write('\n'.join(s.split('\n')[1:]))
 		return name_all
 	except:
@@ -40,7 +40,7 @@ def index():
 		if request.method=='POST':
 			text=request.form.get('text')
 			filename=analyse(text)
-			return render_template('result.html',look_url='/look/'+filename,raw_url='/raw/'+filename,filename=filename,last_name=filename.split('.')[-1][:-1])
+			return render_template('result.html',look_url='/look/'+filename,raw_url='/raw/'+filename,filename=filename,last_name=filename.split('.')[-1])
 		return render_template('index.html',num=len(os.listdir('data/post'))-1)
 	except:
 		return render_template('404.html'),404
@@ -76,6 +76,15 @@ def packup(passwd):
 		with open('ls.txt','w')as f:
 			f.write('\n'.join(os.listdir('data/post')))
 		return send_from_directory('.','ls.txt')
+	else:
+		return render_template('404.html'),404
+
+@app.route('/clear/<string:passwd>')
+def clr(passwd):
+	global pwd
+	if passwd==pwd:
+		os.system('rm -rf data/post/* && touch data/post/.init.txt')
+		return '完成!'
 	else:
 		return render_template('404.html'),404
 
