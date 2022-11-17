@@ -15,7 +15,7 @@ var a = document.domain;;
 </script>
 <div id="base_url">
 <b>此{{ last_name }}文本内容直链:</b><br><br><code><a id="raw_url" href="{{ raw_url }}"><script type="text/javascript">document.write(a);</script>{{ raw_url }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('raw_url')">复制链接</button><br><br>
-<br><b>查看文本内容与信息:</b><br><br><code><a id="look_url" href="{{ look_url }}"><script type="text/javascript">document.write(a);</script>{{ look_url }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('look_url')">复制名称</button><br><br>
+<br><b>查看文本内容与信息:</b><br><br><code><a id="look_url" href="{{ look_url }}"><script type="text/javascript">document.write(a);</script>{{ look_url }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('look_url')">复制链接</button><br><br>
 </body><br><br><center><code><a href="/">再写一篇</a></code></center><script type="text/javascript">
     function copyById(text_id) {
     var text=document.getElementById(text_id).innerText;
