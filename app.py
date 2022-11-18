@@ -93,8 +93,8 @@ def setc():
 		name=request.form['name']
 		pwd=request.form['pwd']
 		response=redirect(url_for('index'))
-		response.set_cookie('name',name)
-		response.set_cookie('pwd',pwd)
+		response.set_cookie('name',name,max_age=2419200)
+		response.set_cookie('pwd',pwd,max_age=2419200)
 		if os.path.exists('data/user/'+name):
 			with open('data/user/'+name+'/pwd','r')as f:
 				if pwd==f.read():
