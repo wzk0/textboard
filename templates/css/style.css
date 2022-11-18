@@ -9,6 +9,14 @@ body .markdown-body
   padding: 45px;
 }
 
+.ipt {
+  width: 40%;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow: black 1px 1px 8px;;
+}
+
 .k {
     font-size: 15px;
     width: 100%;

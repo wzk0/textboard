@@ -14,8 +14,16 @@
 var a = document.domain;;
 </script>
 <div id="base_url">
+{% if ar %}
+<b>此{{ last_name }}文本内容直链(私有):</b><br><br><code><a id="raw_url" href="{{ raw_url }}"><script type="text/javascript">document.write(a);</script>{{ raw_url }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('raw_url')">复制链接</button><br><br>
+<br><b>查看文本内容与信息(私有):</b><br><br><code><a id="look_url" href="{{ look_url }}"><script type="text/javascript">document.write(a);</script>{{ look_url }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('look_url')">复制链接</button><br><br>
+<br><b>此{{ last_name }}文本内容直链(可分享):</b><br><br><code><a id="share_raw_url" href="{{ share_url }}&type=raw&ar={{ user_name }}"><script type="text/javascript">document.write(a);</script>{{ share_url }}&type=raw&ar={{ user_name }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('share_raw_url')">复制链接</button><br><br>
+<br><b>查看文本内容与信息(可分享):</b><br><br><code><a id="share_url" href="{{ share_url }}&type=look&ar={{ user_name }}"><script type="text/javascript">document.write(a);</script>{{ share_url }}&type=look&ar={{ user_name }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('share_url')">复制链接</button><br><br>
+<br><b><a href='/me'>查看我的所有文本</a></b>
+{% else %}
 <b>此{{ last_name }}文本内容直链:</b><br><br><code><a id="raw_url" href="{{ raw_url }}"><script type="text/javascript">document.write(a);</script>{{ raw_url }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('raw_url')">复制链接</button><br><br>
 <br><b>查看文本内容与信息:</b><br><br><code><a id="look_url" href="{{ look_url }}"><script type="text/javascript">document.write(a);</script>{{ look_url }}</a></code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('look_url')">复制链接</button><br><br>
+{% endif %}
 </body><br><br><center><code><a href="/">再写一篇</a></code></center><script type="text/javascript">
     function copyById(text_id) {
     var text=document.getElementById(text_id).innerText;

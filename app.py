@@ -1,7 +1,7 @@
 import random
 import os
 import time as ttt
-from flask import Flask,render_template,request,send_from_directory
+from flask import Flask,render_template,request,send_from_directory,redirect,url_for
 
 ##密码
 pwd='123'
@@ -25,11 +25,16 @@ def get_code(length):
 		return ls
 
 ##分析前端textarea传来的内容, 将第一行删去并得到文件名
-def analyse(s):
+def analyse(s,name):
 	try:
 		name_all=str(''.join(get_code(6)))+'.'+str(s.split('\n')[0])[:-1]
-		with open('data/post/'+name_all,'w')as f:
-			f.write('\n'.join(s.split('\n')[1:]))
+		if name==None:
+			with open('data/post/'+name_all,'w')as f:
+				f.write('\n'.join(s.split('\n')[1:]))
+		else:
+			with open('data/user/'+name+'/'+name_all,'w')as f:
+				f.write('\n'.join(s.split('\n')[1:]))
+			os.system('cp data/user/'+name+'/'+name_all+' data/share')
 		return name_all
 	except:
 		return render_template('404.html'),404
@@ -37,39 +42,120 @@ def analyse(s):
 ##以下是视图函数
 @app.route('/',methods=['POST', 'GET'])
 def index():
+	cookie=request.cookies
+	name=cookie.get('name')
 	try:
 		if request.method=='POST':
 			text=request.form.get('text')
-			filename=analyse(text)
-			return render_template('result.html',look_url='/look/'+filename,raw_url='/raw/'+filename,filename=filename,last_name=filename.split('.')[-1])
-		return render_template('index.html',num=len(os.listdir('data/post'))-1)
+			filename=analyse(text,name)
+			if name==None:
+				ar=False
+			else:
+				ar=True
+			return render_template('result.html',user_name=name,ar=ar,share_url='/share/'+filename,look_url='/look/'+filename,raw_url='/raw/'+filename,filename=filename,last_name=filename.split('.')[-1])
+		if name==None:
+			return render_template('index.html',user_num=len(os.listdir('data/user'))-1,stat=True,word='- 尚未注册或登陆',num=len(os.listdir('data/post'))-2+len(os.listdir('data/share')))
+		else:
+			return render_template('index.html',user_num=len(os.listdir('data/user'))-1,stat=False,word='for '+name,num=len(os.listdir('data/post'))-2+len(os.listdir('data/share')))
+	except:
+		return render_template('404.html'),404
+
+@app.route('/login')
+def log():
+	cookie=request.cookies
+	try:
+		if cookie.get('name')==None:
+			return render_template('login.html',word='登陆或注册')
+		else:
+			return render_template('login.html',word='已经登陆过了, 亲爱的'+cookie.get('name'))
+	except:
+		return render_template('404.html'),404
+
+@app.route('/me')
+def me():
+	cookie=request.cookies
+	try:
+		if cookie.get('name')==None:
+			return render_template('login.html',word='请先登陆或注册')
+		else:
+			ls=os.listdir('data/user/'+cookie.get('name'))
+			ls.remove('pwd')
+			if ls==None:
+				ls=False
+			name=cookie.get('name')
+			return render_template('me.html',data=ls,name=name)
+	except:
+		return render_template('404.html'),404
+
+@app.route('/setc',methods=['POST','GET'])
+def setc():
+	try:
+		name=request.form['name']
+		pwd=request.form['pwd']
+		response=redirect(url_for('index'))
+		response.set_cookie('name',name)
+		response.set_cookie('pwd',pwd)
+		if os.path.exists('data/user/'+name):
+			with open('data/user/'+name+'/pwd','r')as f:
+				if pwd==f.read():
+					return response
+				else:
+					return render_template('login.html',word='用户名已存在或密码错误, 请重新注册或登陆')
+		else:
+			os.system('mkdir data/user/'+name)
+			with open('data/user/'+name+'/pwd','w')as f:
+				f.write(pwd)
+			return response
 	except:
 		return render_template('404.html'),404
 
 @app.route('/look/<string:filename>')
 def look(filename):
 	try:
-		file='data/post/'+filename
+		cookie=request.cookies
+		if cookie.get('name')==None:
+			file='data/post/'+filename
+		else:
+			file='data/user/'+cookie.get('name')+'/'+filename
 		time=ttt.strftime("%Y-%m-%d %H:%M:%S",ttt.localtime(os.path.getctime(file)))
 		size=str(os.stat(file).st_size/1000)
 		with open(file,'r')as f:
 			text=f.read()
-		return render_template('look.html',last_name=filename.split('.')[-1],time=time,text=text,filename=filename,size=size+' kB')
+		return render_template('look.html',stat=False,user_name=cookie.get('name'),last_name=filename.split('.')[-1],time=time,text=text,filename=filename,size=size+' kB')
+	except:
+		return render_template('404.html'),404
+
+@app.route('/share/<string:filename>&type=<string:typ>&ar=<string:ar>')
+def share(filename,typ,ar):
+	try:
+		if typ=='raw':
+			return send_from_directory('data/share/',filename)
+		elif typ=='look':
+			file='data/share/'+filename
+			time=ttt.strftime("%Y-%m-%d %H:%M:%S",ttt.localtime(os.path.getctime(file)))
+			size=str(os.stat(file).st_size/1000)
+			with open(file,'r')as f:
+				text=f.read()
+			return render_template('look.html',stat=True,user_name=ar,last_name=filename.split('.')[-1],time=time,text=text,filename=filename,size=size+' kB')
 	except:
 		return render_template('404.html'),404
 
 @app.route('/raw/<string:filename>')
 def raw(filename):
-	file='data/post/'+filename
+	cookie=request.cookies
+	if cookie.get('name')==None:
+		file='data/post/'
+	else:
+		file='data/user/'+cookie.get('name')+'/'
 	try:
-		with open(file,'r')as f:
-			return send_from_directory('data/post',filename)
+		with open(file+filename,'r')as f:
+			return send_from_directory(file,filename)
 	except:
 		return render_template('404.html'),404
 
 @app.errorhandler(404)
 def pnf(e):
-    return render_template('404.html'),404
+	return render_template('404.html'),404
 
 @app.route('/pack/<string:passwd>')
 def packup(passwd):
@@ -91,4 +177,4 @@ def clr(passwd):
 		return render_template('404.html'),404
 
 if __name__ == "__start__":
-    app.run(host='0.0.0.0')
+	app.run(host='0.0.0.0')

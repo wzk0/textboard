@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<title>{{ name }}的文本列表</title>
+</head>
+<article class="markdown-body">
+<body>
+<script type="text/javascript">
+var a = document.domain;;
+</script>
+<script type="text/javascript">
+    function copyById(text_id) {
+    var text=document.getElementById(text_id).innerText;
+    navigator.clipboard.writeText(text);
+  }
+</script>
+<h1><code>Text Board for {{ name }}</code></h1><br>
+{% if not data %}
+<br>
+<center><h4>这里空空如也...<a href="/">写点儿东西</a>!</h4><center>
+{% else %}
+{% for d in data %}
+<li>文件名: <code id="wjm{{ loop.index0 }}">{{ d }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('wjm{{ loop.index0 }}')">复制名字</button></li><br><br>
+
+<li>文本内容直链(私有): <code><a id="syz{{ loop.index0 }}" href="/raw/{{ d }}"><script type="text/javascript">document.write(a);</script>/raw/{{ d }}</code></a> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('syz{{ loop.index0 }}')">复制链接</button></li><br><br>
+
+<li>查看文本信息与内容(私有): <code><a id="syn{{ loop.index0 }}" href="/look/{{ d }}"><script type="text/javascript">document.write(a);</script>/look/{{ d }}</code></a> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('syn{{ loop.index0 }}')">复制链接</button></li><br><br>
+
+<li>文本内容直链(可分享): <code><a id="fxz{{ loop.index0 }}" href="/share/{{ d }}&type=raw&ar={{ name }}"><script type="text/javascript">document.write(a);</script>/share/{{ d }}&type=raw&ar={{ name }}</code></a> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('fxz{{ loop.index0 }}')">复制链接</button></li><br><br>
+
+<li>查看文本信息与内容(可分享): <code><a id="fxn{{ loop.index0 }}" href="/share/{{ d }}&type=look&ar={{ name }}"><script type="text/javascript">document.write(a);</script>/share/{{ d }}&type=look&ar={{ name }}</code></a> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('fxn{{ loop.index0 }}')">复制链接</button></li><br><br>
+<hr><br>
+{% endfor %}
+{% endif %}
+<center><br><br><code><a href="/">写点儿什么</a></code></center>
+</body>
+</html>
