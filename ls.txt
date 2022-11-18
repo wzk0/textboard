@@ -1,0 +1,21 @@
+data
+├── post
+│   └── mhNnfc.txt
+├── share
+│   ├── 94KvFy.1212112
+│   ├── K6Oteq.1
+│   ├── QmePUR.1
+│   ├── yisfyR.122
+│   └── yxdgq1.1212
+└── user
+    ├── 12121
+    │   ├── 94KvFy.1212112
+    │   ├── pwd
+    │   └── yxdgq1.1212
+    └── thdbd
+        ├── K6Oteq.1
+        ├── pwd
+        ├── QmePUR.1
+        └── yisfyR.122
+
+5 directories, 13 files

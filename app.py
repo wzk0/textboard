@@ -24,14 +24,22 @@ def get_code(length):
 	except:
 		return ls
 
+##检查密码
+def check_pwd(name,pwd):
+	with open('data/user/'+name+'/pwd','r')as f:
+		if pwd==f.read():
+			return True
+		else:
+			return render_template('login.html',word='您可能正在尝试伪造cookies, 请勿这么做并注册或重新登陆')
+
 ##分析前端textarea传来的内容, 将第一行删去并得到文件名
-def analyse(s,name):
+def analyse(s,name,pwd):
 	try:
 		name_all=str(''.join(get_code(6)))+'.'+str(s.split('\n')[0])[:-1]
 		if name==None:
 			with open('data/post/'+name_all,'w')as f:
 				f.write('\n'.join(s.split('\n')[1:]))
-		else:
+		elif check_pwd(name,pwd):
 			with open('data/user/'+name+'/'+name_all,'w')as f:
 				f.write('\n'.join(s.split('\n')[1:]))
 			os.system('cp data/user/'+name+'/'+name_all+' data/share')
@@ -44,45 +52,47 @@ def analyse(s,name):
 def index():
 	cookie=request.cookies
 	name=cookie.get('name')
-	try:
-		if request.method=='POST':
-			text=request.form.get('text')
-			filename=analyse(text,name)
-			if name==None:
-				ar=False
-			else:
-				ar=True
-			return render_template('result.html',user_name=name,ar=ar,share_url='/share/'+filename,look_url='/look/'+filename,raw_url='/raw/'+filename,filename=filename,last_name=filename.split('.')[-1])
+	pwd=cookie.get('pwd')
+	if request.method=='POST':
+		text=request.form.get('text')
+		filename=analyse(text,name,pwd)
 		if name==None:
-			return render_template('index.html',user_num=len(os.listdir('data/user'))-1,stat=True,word='- 尚未注册或登陆',num=len(os.listdir('data/post'))-2+len(os.listdir('data/share')))
+			ar=False
 		else:
-			return render_template('index.html',user_num=len(os.listdir('data/user'))-1,stat=False,word='for '+name,num=len(os.listdir('data/post'))-2+len(os.listdir('data/share')))
-	except:
-		return render_template('404.html'),404
+			ar=True
+		return render_template('result.html',user_name=name,ar=ar,share_url='/share/'+filename,look_url='/look/'+filename,raw_url='/raw/'+filename,filename=filename,last_name=filename.split('.')[-1])
+	if name==None:
+		return render_template('index.html',user_num=len(os.listdir('data/user'))-1,stat=True,word='- 尚未注册或登陆',num=len(os.listdir('data/post'))-2+len(os.listdir('data/share')))
+	elif check_pwd(name,pwd):
+		return render_template('index.html',user_num=len(os.listdir('data/user'))-1,stat=False,word='for '+name,num=len(os.listdir('data/post'))-2+len(os.listdir('data/share')))
 
 @app.route('/login')
 def log():
 	cookie=request.cookies
+	name=cookie.get('name')
+	pwd=cookie.get('pwd')
 	try:
-		if cookie.get('name')==None:
+		if name==None:
 			return render_template('login.html',word='登陆或注册')
-		else:
-			return render_template('login.html',word='已经登陆过了, 亲爱的'+cookie.get('name'))
+		elif check_pwd(name,pwd):
+			return render_template('login.html',word='已经登陆过了, 亲爱的'+name)
 	except:
 		return render_template('404.html'),404
 
 @app.route('/me')
 def me():
 	cookie=request.cookies
+	name=cookie.get('name')
+	pwd=cookie.get('pwd')
 	try:
-		if cookie.get('name')==None:
+		if name==None:
 			return render_template('login.html',word='请先登陆或注册')
-		else:
-			ls=os.listdir('data/user/'+cookie.get('name'))
+		elif check_pwd(name,pwd):
+			ls=os.listdir('data/user/'+name)
 			ls.remove('pwd')
 			if ls==None:
 				ls=False
-			name=cookie.get('name')
+			name=name
 			return render_template('me.html',data=ls,name=name)
 	except:
 		return render_template('404.html'),404
@@ -113,15 +123,17 @@ def setc():
 def look(filename):
 	try:
 		cookie=request.cookies
-		if cookie.get('name')==None:
+		name=cookie.get('name')
+		pwd=cookie.get('pwd')
+		if name==None:
 			file='data/post/'+filename
-		else:
-			file='data/user/'+cookie.get('name')+'/'+filename
+		elif check_pwd(name,pwd):
+			file='data/user/'+name+'/'+filename
 		time=ttt.strftime("%Y-%m-%d %H:%M:%S",ttt.localtime(os.path.getctime(file)))
 		size=str(os.stat(file).st_size/1000)
 		with open(file,'r')as f:
 			text=f.read()
-		return render_template('look.html',stat=False,user_name=cookie.get('name'),last_name=filename.split('.')[-1],time=time,text=text,filename=filename,size=size+' kB')
+		return render_template('look.html',stat=False,user_name=name,last_name=filename.split('.')[-1],time=time,text=text,filename=filename,size=size+' kB')
 	except:
 		return render_template('404.html'),404
 
@@ -143,10 +155,12 @@ def share(filename,typ,ar):
 @app.route('/raw/<string:filename>')
 def raw(filename):
 	cookie=request.cookies
-	if cookie.get('name')==None:
+	name=cookie.get('name')
+	pwd=cookie.get('pwd')
+	if name==None:
 		file='data/post/'
-	else:
-		file='data/user/'+cookie.get('name')+'/'
+	elif check_pwd(name,pwd):
+		file='data/user/'+name+'/'
 	try:
 		with open(file+filename,'r')as f:
 			return send_from_directory(file,filename)
@@ -161,8 +175,7 @@ def pnf(e):
 def packup(passwd):
 	global pwd
 	if passwd==pwd:
-		with open('ls.txt','w')as f:
-			f.write('\n'.join(os.listdir('data/post')))
+		os.system('tree data >> ls.txt')
 		return send_from_directory('.','ls.txt')
 	else:
 		return render_template('404.html'),404
