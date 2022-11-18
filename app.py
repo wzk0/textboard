@@ -175,7 +175,7 @@ def pnf(e):
 def packup(passwd):
 	global pwd
 	if passwd==pwd:
-		os.system('tree data >> ls.txt')
+		os.system('touch ls.txt && rm ls.txt && tree data >> ls.txt')
 		return send_from_directory('.','ls.txt')
 	else:
 		return render_template('404.html'),404
