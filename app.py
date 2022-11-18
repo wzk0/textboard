@@ -18,9 +18,10 @@ def get_code(length):
 	while one<=length:
 		ls.append(random.choice(str_all))
 		one+=1
-	if ''.join(ls) in os.listdir('data/post'):
-		get_code(length)
-	else:
+	try:
+		with open(file,'r')as f:
+			get_code(length)
+	except:
 		return ls
 
 ##分析前端textarea传来的内容, 将第一行删去并得到文件名
@@ -51,7 +52,6 @@ def look(filename):
 		file='data/post/'+filename
 		time=ttt.strftime("%Y-%m-%d %H:%M:%S",ttt.localtime(os.path.getctime(file)))
 		size=str(os.stat(file).st_size/1000)
-		print(size)
 		with open(file,'r')as f:
 			text=f.read()
 		return render_template('look.html',last_name=filename.split('.')[-1],time=time,text=text,filename=filename,size=size+' kB')
@@ -60,10 +60,12 @@ def look(filename):
 
 @app.route('/raw/<string:filename>')
 def raw(filename):
-	if filename not in os.listdir('data/post'):
+	file='data/post/'+filename
+	try:
+		with open(file,'r')as f:
+			return send_from_directory('data/post',filename)
+	except:
 		return render_template('404.html'),404
-	else:
-		return send_from_directory('data/post',filename)		
 
 @app.errorhandler(404)
 def pnf(e):
