@@ -23,7 +23,7 @@ var a = document.domain;;
 <center><h4>这里空空如也...<a href="/">写点儿东西</a>!</h4><center>
 {% else %}
 {% for d in data %}
-<li>文件名: <code id="wjm{{ loop.index0 }}">{{ d }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('wjm{{ loop.index0 }}')">复制名字</button></li><br><br>
+<li>文件名: <code id="wjm{{ loop.index0 }}">{{ d }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('wjm{{ loop.index0 }}')">复制名字</button> <a href="/edit/{{ d }}"><button style="cursor:pointer" class="bfb">编辑内容</button></a> <a href="/del/{{ d }}"><button style="cursor:pointer" class="bfb">删除文本</button></a></li><br><br>
 
 <li>文本内容直链(私有): <code><a id="syz{{ loop.index0 }}" href="/raw/{{ d }}"><script type="text/javascript">document.write(a);</script>/raw/{{ d }}</code></a> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('syz{{ loop.index0 }}')">复制链接</button></li><br><br>
 

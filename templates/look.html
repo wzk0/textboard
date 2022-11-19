@@ -1105,18 +1105,19 @@ body .markdown-body
 <body>
 <h1><code>Text Board</code></h1><br>
 </body>
-文件名: <code id="fn">{{ filename }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('fn')">复制名称</button><br><br>
+文件名: <code id="fn">{{ filename }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('fn')">复制名称</button> <a href="/edit/{{ filename }}"><button style="cursor:pointer" class="bfb">编辑内容</button></a> <a href="/del/{{ filename }}"><button style="cursor:pointer" class="bfb">删除文本</button></a><br><br>
 创建者: <code id="un">{{ user_name }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('un')">复制昵称</button><br><br>
 创建于: <code id="time">{{ time }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('time')">复制时间</button><br><br>
 文本大小: <code id="size">{{ size }}</code> <button style="cursor:pointer" class="bfb" onclick="copyById('size')">复制大小</button><br><br><script type="text/javascript">
 var a = document.domain;;
 </script>
 {% if stat %}
-文本直链: <code><a id="link" href="/share/{{ filename }}&type=raw&ar={{ user_name }}"><script type="text/javascript">document.write(a);</script>/share/{{ filename }}&type=raw&ar={{ user_name }}</a></code> <button style="cursor:pointer" class="bfb" onclick="copyById('link')">复制链接</button><br><br>
-{% else %}
 文本直链: <code><a id="link" href="/raw/{{ filename }}"><script type="text/javascript">document.write(a);</script>/raw/{{ filename }}</a></code> <button style="cursor:pointer" class="bfb" onclick="copyById('link')">复制链接</button><br><br>
-{% endif %}
+<b>内容:</b><br><br><button style="cursor:pointer" class="bfb" onclick="copyById('ppp')">复制内容</button> <a href="/login">注册或登陆即可使用编辑与删除功能.</a><br><br>
+{% else %}
+文本直链: <code><a id="link" href="/share/{{ filename }}&type=raw&ar={{ user_name }}"><script type="text/javascript">document.write(a);</script>/share/{{ filename }}&type=raw&ar={{ user_name }}</a></code> <button style="cursor:pointer" class="bfb" onclick="copyById('link')">复制链接</button><br><br>
 <b>内容:</b><br><br><button style="cursor:pointer" class="bfb" onclick="copyById('ppp')">复制内容</button><br><br>
+{% endif %}
 <script type="text/javascript">
     function copyById(text_id) {
     var text=document.getElementById(text_id).innerText;
@@ -1124,6 +1125,6 @@ var a = document.domain;;
   }
 </script>
 <pre id="ppp">{{ text }}</pre><br>
-<br><center><code><a href="/">写一篇</a></code></center>
+<br><center><code><a href="/">写点儿东西</a></code></center>
 </article>
 </html>

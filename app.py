@@ -127,13 +127,15 @@ def look(filename):
 		pwd=cookie.get('pwd')
 		if name==None:
 			file='data/post/'+filename
+			stat=True
 		elif check_pwd(name,pwd):
 			file='data/user/'+name+'/'+filename
+			stat=False
 		time=ttt.strftime("%Y-%m-%d %H:%M:%S",ttt.localtime(os.path.getctime(file)))
 		size=str(os.stat(file).st_size/1000)
 		with open(file,'r')as f:
 			text=f.read()
-		return render_template('look.html',stat=False,user_name=name,last_name=filename.split('.')[-1],time=time,text=text,filename=filename,size=size+' kB')
+		return render_template('look.html',stat=stat,user_name=name,last_name=filename.split('.')[-1],time=time,text=text,filename=filename,size=size+' kB')
 	except:
 		return render_template('404.html'),404
 
@@ -164,6 +166,46 @@ def raw(filename):
 	try:
 		with open(file+filename,'r')as f:
 			return send_from_directory(file,filename)
+	except:
+		return render_template('404.html'),404
+
+@app.route('/edit/<string:filename>',methods=['POST','GET'])
+def gedit(filename):
+	cookie=request.cookies
+	name=cookie.get('name')
+	pwd=cookie.get('pwd')
+	try:
+		try:
+			with open('data/user/'+name+'/'+filename,'r')as ff:
+				raw_s=ff.read()
+		except:
+			return render_template('login.html',word='请先注册或登陆')
+		if request.method=='POST':
+			text=request.form.get('text')
+			if name==None:
+				return render_template('login.html',word='请先注册或登陆')
+			elif check_pwd(name,pwd):
+				with open('data/user/'+name+'/'+filename,'w')as f:
+					f.write(text)
+				os.system('cp data/user/'+name+'/'+filename+' data/share')
+				return redirect(url_for('look',filename=filename))
+		return render_template('edit.html',filename=filename,raw_s=raw_s)
+	except:
+		return render_template('404.html'),404
+
+@app.route('/del/<string:filename>')
+def dele(filename):
+	cookie=request.cookies
+	name=cookie.get('name')
+	pwd=cookie.get('pwd')
+	try:
+		if name==None:
+			return render_template('login.html',word='请先注册或登陆')
+		elif check_pwd(name,pwd):
+			path='data/user/'+name+'/'+filename
+			os.system('rm -rf data/user/%s/'%name+filename)
+			os.system('rm -rf data/share/%s'%filename)
+			return redirect(url_for('me'))
 	except:
 		return render_template('404.html'),404
 

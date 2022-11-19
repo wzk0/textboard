@@ -9,7 +9,7 @@
 <article class="markdown-body">
 <body>
 <h1><code>Text Board</code></h1><br>
-<b>随机生成的文件名: </b><code id="fn">{{ filename }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('fn')">复制名称</button><br><br><br>
+<b>随机生成的文件名: </b><code id="fn">{{ filename }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('fn')">复制名称</button> <a href="/edit/{{ filename }}"><button style="cursor:pointer" class="bfb">编辑内容</button></a> <a href="/del/{{ filename }}"><button style="cursor:pointer" class="bfb">删除文本</button></a><br><br><br>
 <script type="text/javascript">
 var a = document.domain;;
 </script>

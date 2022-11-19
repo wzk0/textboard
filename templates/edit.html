@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<style>body {
+	<style type="text/css">body {
   max-width: 980px;
   outline: 1300px solid #fff;
   margin: 16px auto;
@@ -14,26 +14,10 @@ body .markdown-body
   padding: 45px;
 }
 
-.ipt {
-  width: 40%;
-  height: 40px;
-  border: 2px solid black;
-  border-radius: 5px;
-  box-shadow: black 1px 1px 8px;;
-}
-
 .k {
     font-size: 15px;
     width: 100%;
     height: 1000%;
-    border: 0px solid black;
-    border-radius: 5px;
-}
-
-.kk {
-    font-size: 15px;
-    width: 100%;
-    height: 10000%;
     border: 0px solid black;
     border-radius: 5px;
 }
@@ -43,16 +27,8 @@ body .markdown-body
 }
 
 .b {
-    width: 85px;
+    width: 95px;
     height: 45px;
-    font-size: 15px;
-    border: 0px solid black;
-    border-radius: 5px;
-}
-
-.bfb {
-    width: 80px;
-    height: 30px;
     font-size: 15px;
     border: 0px solid black;
     border-radius: 5px;
@@ -1115,15 +1091,25 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}</style>
-	<title>登陆或注册</title>
+	<title>Share Your Text! - Text Board</title>
 </head>
 <article class="markdown-body">
 <body>
-	<h1><code>Text Board</code></h1><br>
-<form action="/setc" method="POST"><h4>{{ word }}<br></h4><br><br>
-	<p><input required="" placeholder='在此填写昵称' class="ipt" type="text" name="name"></p><br><br>
-	<p><input required="" placeholder='在此填写密码' class="ipt" type="password" name="pwd"></p><br><br>
-	<input type="submit" style="cursor:pointer" class="bfb"></form><br><br><b><li>未被注册的昵称会被注册;</li><li>已被注册的昵称将无法被注册;</li><li>上面两句话好像重复了;</li><li>注册用户可查看自己已储存的文本列表;<li>昵称应为四位以上的纯英文字母或数字组合, 请不要有中文;</li><li>密码同上, 请不要有中文;</li><li>登陆成功的用户会返回首页, 同时标题会显示你的昵称;</li>
+<h1><code>Text Board</code></h1><br>
+<a href="/me">查看我的所有文本.</a><br><br>
+<form method="post"><br><b><li>修改区:</b></li><br><br><code>{{ filename }}</code>:<br><br>
+<textarea style="height: 200px;" 
+class="k" required="" name="text" id="text" wrap="hard" autofocus placeholder="点此输入, 第一行无需输入后缀名">{{ raw_s }}</textarea><br><br>
+<center><br><input style="cursor:pointer" class="b" type="submit" value="保存"></center><br>
+</form><br><br>
 </body>
+<script>
+    var textarea = document.querySelector('textarea');
+    textarea.addEventListener('input', (e) => {
+        textarea.style.height = '100px';
+        textarea.style.height = e.target.scrollHeight + 'px';
+    });
+</script>
+<br>
 </article>
 </html>
