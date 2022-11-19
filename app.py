@@ -18,10 +18,10 @@ def get_code(length):
 	while one<=length:
 		ls.append(random.choice(str_all))
 		one+=1
-	try:
-		with open(file,'r')as f:
-			get_code(length)
-	except:
+	name=''.join(ls)
+	if name in os.listdir('data/post') or name in os.listdir('data/share'):
+		get_code(length)
+	else:
 		return ls
 
 ##检查密码
@@ -179,7 +179,10 @@ def gedit(filename):
 			with open('data/user/'+name+'/'+filename,'r')as ff:
 				raw_s=ff.read()
 		except:
-			return render_template('login.html',word='请先注册或登陆')
+			if name==None:
+				return render_template('login.html',word='请先注册或登陆')
+			else:
+				return render_template('login.html',word='无法修改他人分享的文本!')
 		if request.method=='POST':
 			text=request.form.get('text')
 			if name==None:
@@ -203,6 +206,11 @@ def dele(filename):
 			return render_template('login.html',word='请先注册或登陆')
 		elif check_pwd(name,pwd):
 			path='data/user/'+name+'/'+filename
+			try:
+				with open('data/user/%s/'%name+filename,'r')as f:
+					f=f.read()
+			except:
+				return render_template('login.html',word='无法删除他人分享的文本!')
 			os.system('rm -rf data/user/%s/'%name+filename)
 			os.system('rm -rf data/share/%s'%filename)
 			return redirect(url_for('me'))

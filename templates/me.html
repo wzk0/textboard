@@ -20,7 +20,7 @@ var a = document.domain;;
 <h1><code>Text Board for {{ name }}</code></h1><br>
 {% if not data %}
 <br>
-<center><h4>这里空空如也...<a href="/">写点儿东西</a>!</h4><center>
+<center><h4>这里空空如也...<a href="/">写点儿东西</a>!</h4></center>
 {% else %}
 {% for d in data %}
 <li>文件名: <code id="wjm{{ loop.index0 }}">{{ d }}</code> <button style="cursor:pointer" style="float:right;" class="bfb" onclick="copyById('wjm{{ loop.index0 }}')">复制名字</button> <a href="/edit/{{ d }}"><button style="cursor:pointer" class="bfb">编辑内容</button></a> <a href="/del/{{ d }}"><button style="cursor:pointer" class="bfb">删除文本</button></a></li><br><br>
