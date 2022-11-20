@@ -19,7 +19,6 @@ body .markdown-body
   height: 40px;
   border: 2px solid black;
   border-radius: 5px;
-  box-shadow: black 1px 1px 8px;;
 }
 
 .k {
@@ -1120,10 +1119,10 @@ body .markdown-body
 <article class="markdown-body">
 <body>
 	<h1><code>Text Board</code></h1><br>
-<form action="/setc" method="POST"><h4>{{ word }}<br></h4><br><br>
-	<p><input required="" placeholder='在此填写昵称' class="ipt" type="text" name="name"></p><br><br>
-	<p><input required="" placeholder='在此填写密码' class="ipt" type="password" name="pwd"></p><br><br>
-	<input type="submit" style="cursor:pointer" class="bfb"></form><br><br><b><li>未被注册的昵称会被注册;</li><li>已被注册的昵称将无法被注册;</li><li>上面两句话好像重复了;</li><li>注册用户可查看自己已储存的文本列表;<li>昵称应为四位以上的纯英文字母或数字组合, 请不要有中文;</li><li>密码同上, 请不要有中文;</li><li>登陆成功的用户会返回首页, 同时标题会显示你的昵称;</li>
-</body>
+<form action="/setc" method="POST"><h4>{{ word }}<br></h4><br>
+	<li><input required="" placeholder='在此填写昵称' class="ipt" type="text" name="name"></li><br><br>
+	<li><input required="" placeholder='在此填写密码' class="ipt" type="password" name="pwd"></li><br><br>
+	<input type="submit" style="cursor:pointer" class="bfb"></form>
+</body><footer><center><br><br><br><br><a href="/">首页</a> - <a href="/about">关于</a> - <a href="/me">我的</a> - <a href="/login">注册或登陆</a> - <a href="https://github.com/wzk0/textboard">源代码</a></center></footer>
 </article>
 </html>

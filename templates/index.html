@@ -8,25 +8,15 @@
 </head>
 <article class="markdown-body">
 <body>
-<h1><code>Text Board {{ word }}</code></h1><br>
+<h1><code>Text Board {{ word }}</code></h1>
 {% if stat %}
-<a href="/login">点此免费注册或登陆, 可使用列出等功能.</a><br><br>
+<br><br><a href="/about">查看详情与用法</a> │ <a href="/login">点此免费注册或登陆, 可使用更多功能</a><br><br>
 {% else %}
-<a href="/me">查看我的所有文本.</a><br><br>
+<br><br><a href="/import">从网络导入</a> │ <a href="/about">查看详情与用法</a> │ <a href="/me">查看我的所有文本</a><br><br>
 {% endif %}
-<form method="post"><br><b><li>编辑区:</b></li><br><br>
+<form method="post"><br><b><li>编辑区</b></li><br><br>
 <textarea style="height: 200px;" class="k" required="" name="text" id="text" wrap="hard" autofocus placeholder="点此输入. 首行请输入后缀名, 如: txt"></textarea><br><br>
-<center><br><input style="cursor:pointer" class="b" type="submit" value="写完了"></center><br>
-</form><br><br><b><li>一个完整的例子:</li></b><br><br>
-<pre>py
-print('将会为你创建一个随机文件名(长度为6)的py文件, 文件内容就是这些啦!')
-a=1
-b=2
-if a==b:
-	print('不可能的')
-else:
-	pass
-</pre>
+<center><br><input style="cursor:pointer" class="b" type="submit" value="写完了"></center></form><br>
 </body>
 <script>
     var textarea = document.querySelector('textarea');
@@ -36,6 +26,7 @@ else:
         textarea.style.height = e.target.scrollHeight + 'px';
     });
 </script>
-<br><center><hr><br><br><code>一个快速记录或分享纯文本, 且<b>无审核</b>的开源工具. 你的文本在此将<b>无加密</b>地储存在服务器端.</code><br><br><br><b>已注册用户: {{ user_num }}位 ‧ 已储存文本: {{ num }}个 ‧ <a href="https://github.com/wzk0/textboard">点此查看源代码</a></b></center>
+<br><center><hr><br><br><code>一个快速记录或分享纯文本, 且<b>无审核</b>的在线工具. 你的文本在此将<b>无加密</b>地储存在服务器端.</code><br><br><br><b>已注册用户: {{ user_num }}位 ‧ 已储存文本: {{ num }}个</b></center>
+<footer><center><br><br><br><br><a href="/">首页</a> - <a href="/about">关于</a> - <a href="/me">我的</a> - <a href="/login">注册或登陆</a> - <a href="https://github.com/wzk0/textboard">源代码</a></center></footer>
 </article>
 </html>

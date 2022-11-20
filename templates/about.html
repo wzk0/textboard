@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<title>关于 - Text Board</title>
+</head>
+<article class="markdown-body">
+	{% if stat %}
+	<h1><code>Text Board for {{ name }}</code></h1><br>
+	<h3>欢迎, {{ name }}!</h3>
+	{% else %}
+	<h1><code>Text Board</code></h1><br>
+	<h3>欢迎, 尚未注册的你!</h3>
+	{% endif %}
+<body><br>
+<li>这是什么?</li><br>
+<ul>一个快速记录或分享纯文本, 且无审核的在线工具. 你的文本在此将无加密地储存在服务器端.</ul><br><br>
+<li>有哪些特点?</li><br>
+<ul>支持注册与登陆, 支持网络导入, 无审核, 界面简约, 操作方便.</ul><br><br>
+<li>怎么使用?</li><br>
+<ul>打开首页或<a href="/">点此即可创建新文章</a>. 创建新文章时, 只需在编辑区下方的文本框输入即可, 第一行请填写文件后缀名, 服务器会为此文件生成一个长度为六的随机字符串作为文件名, 而文件类型即为第一行自定义的后缀名.</ul><br><br>
+<li>一个完整的例子:</li><br>
+<pre>py
+print('将会为你创建一个随机文件名(长度为6)的py文件, 文件内容就是这些啦!')
+a=1
+b=2
+if a==b:
+	print('不可能的')
+else:
+	pass
+</pre><br><br>
+<li>命名规范?</li><br>
+<ul>创建文件时, 第一行请勿填写<b>除</b>英文字母大小写, 数字或者"."(点), "_"(下划线), "-"(不知道叫啥的符号)<b>以外的符号或中文</b>. 可以通过填写二级后缀, 如"today.txt"来提示自己文件内容.</ul><br><br>
+<li>注册与登陆?</li><br>
+<ul>网站支持注册与登陆, <a href="/login">点此即可注册或登陆</a>. 注册无需提供任何个人信息, 命名规范与上述文件后缀名的规范一致, 只能使用英文昵称.</ul><br><br>
+<li>注册与登陆的好处?</li><br>
+<ul>登陆后, 可以有自己的列表页面, <a href="/me">点此即可查看(未登陆用户会自动跳转至登陆页面)</a>. 同时, 登陆用户拥有编辑与删除自己创建过的文本的权利.</ul><br><br>
+<li>忘记或编辑密码?</li><br>
+<ul>若网站的登陆状态还在, 可以<a href="/look/pwd">点击这里查看密码</a>. 注意: 不要删除!!! 否则将无法使用所有功能. 若要编辑密码, 请在密码完成编辑后以新密码重新登陆. 若网站登陆状态已消失, 请联系我.</ul><br><br>
+<li>导入功能?</li><br>
+<ul>登陆后, 在首页编辑区上方会显示这个功能. 支持直接从任意源文本直链拉取内容并进行编辑(源文本直链指的是一打开就能看见文本内容的那种, 类似GitHub的raw), 注意不要拉取非文本文件(如图片)或使用非源文本直链, 否则浏览器可能会卡爆. 链接会取最后一个/后的内容作为文件名, 此文件名也遵循上述的命名规范, 也就是说如果链接中的最后一个/后有<b>除</b>英文字母大小写, 数字或者"."(点), "_"(下划线), "-"(不知道叫啥的符号)<b>以外的符号或中文</b>, 将会跳转到404. 另外, 此功能的请求方法为GET.</ul><br><br>
+<li>为什么404?</li><br>
+<ul>如果跳转到404页, 对于本站而言不一定是文件不存在, 也有可能是用户操作有问题. 因此, 请尝试重新提交表单或重新登陆. 若确定自己操作无误, 请务必向我报告错误!</ul><br><br>
+</body><footer><center><br><br><br><br><a href="/">首页</a> - <a href="/about">关于</a> - <a href="/me">我的</a> - <a href="/login">注册或登陆</a> - <a href="https://github.com/wzk0/textboard">源代码</a></center></footer>
+</article>
+</html>
