@@ -104,33 +104,30 @@ def get_raw(url):
 	cookie=request.cookies
 	name=cookie.get('name')
 	pwd=cookie.get('pwd')
-	try:
-		if name==None:
-			return render_template('login.html',word='请先登陆或注册')
-		elif check_pwd(name,pwd):
-			global str_all
-			mark_list=[url.split('/')[-1]]
-			for sl in str_all:
-				mark_list.append(mark_list[-1].replace(sl,''))
-			if mark_list[-1]=='':
-				pass
-			else:
-				for m in mark_list[-1]:
-					if m not in ['.','-','_']:
-						return render_template('404.html'),404
-					else:
-						pass
-			filename=str(''.join(get_code(6)))+'_'+url.split('/')[-1]
-			raw_s=requests.get(url).text
-			with open('data/user/%s/'%name+filename,'w')as f:
-				f.write(raw_s)
-			if filename!='pwd':
-				os.system('cp data/user/'+name+'/'+filename+' data/share')
-			else:
-				pass
-			return redirect(url_for('look',filename=filename))
-	except:
-		return render_template('404.html'),404
+	if name==None:
+		return render_template('login.html',word='请先登陆或注册')
+	elif check_pwd(name,pwd):
+		global str_all
+		mark_list=[url.split('/')[-1]]
+		for sl in str_all:
+			mark_list.append(mark_list[-1].replace(sl,''))
+		if mark_list[-1]=='':
+			pass
+		else:
+			for m in mark_list[-1]:
+				if m not in ['.','-','_']:
+					return render_template('404.html'),404
+				else:
+					pass
+		filename=str(''.join(get_code(6)))+'_'+url.split('/')[-1]
+		raw_s=requests.get(url).text
+		with open('data/user/%s/'%name+filename,'w')as f:
+			f.write(raw_s)
+		if filename!='pwd':
+			os.system('cp data/user/'+name+'/'+filename+' data/share')
+		else:
+			pass
+		return redirect(url_for('look',filename=filename))
 
 @app.route('/about')
 def about():
