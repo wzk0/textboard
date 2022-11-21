@@ -215,6 +215,10 @@ def look(filename):
 			stat=True
 		elif check_pwd(name,pwd):
 			file='data/user/'+name+'/'+filename
+			if not os.path.exists(file):
+				file='data/post/'+filename
+			else:
+				file=file
 			stat=False
 		time=ttt.strftime("%Y-%m-%d %H:%M:%S",ttt.localtime(os.path.getctime(file)))
 		size=str(os.stat(file).st_size/1000)
@@ -248,6 +252,10 @@ def raw(filename):
 		file='data/post/'
 	elif check_pwd(name,pwd):
 		file='data/user/'+name+'/'
+		if not os.path.exists(file+filename):
+			file='data/post/'
+		else:
+			file=file
 	try:
 		with open(file+filename,'r')as f:
 			return send_from_directory(file,filename)

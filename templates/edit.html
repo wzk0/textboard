@@ -3,6 +3,10 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/addon/selection/active-line.js"></script>
+	<script src="https://codemirror.net/5/addon/display/placeholder.js"></script>
 	<style type="text/css">body {
   max-width: 980px;
   outline: 1300px solid #fff;
@@ -1029,6 +1033,12 @@ body .markdown-body
   }
 }
 
+.pure_div{
+   border-style: solid;
+   border-radius: 5px;
+   border-color: gray;
+}
+
 .highlight {background-color:#fff;color:#333333;}
 .highlight .hll {background-color:#ffffcc;}
 .highlight .c{color:#999988;font-style:italic}
@@ -1091,24 +1101,32 @@ body .markdown-body
 .highlight .vi{color:teal}
 .highlight .il{color:#009999}
 .highlight .gc{color:#999;background-color:#EAF2F5}</style>
-	<title>编辑 - Text Board</title>
+<title>编辑 - Text Board</title>
 </head>
 <article class="markdown-body">
 <body>
 <h1><code>Text Board</code></h1><br>
 <a href="/me">查看我的所有文本.</a><br><br>
 <form method="post"><br><b><li>修改区:</b></li><br><br><code>{{ filename }}</code>:<br><br>
-<textarea style="height: 200px;" 
-class="k" required="" name="text" id="text" wrap="hard" autofocus placeholder="点此输入, 第一行无需输入后缀名">{{ raw_s }}</textarea><br><br>
+<div class="pure_div">
+<textarea class="form-control" id="text" name="text">{{ raw_s }}</textarea>
+</div><br><br>
 <center><br><input style="cursor:pointer" class="b" type="submit" value="保存"></center><br>
 </form><br><br>
 </body>
-<script>
-    var textarea = document.querySelector('textarea');
-    textarea.addEventListener('input', (e) => {
-        textarea.style.height = '100px';
-        textarea.style.height = e.target.scrollHeight + 'px';
-    });
+<script type="text/javascript" >
+		//根据DOM元素的id构造出一个编辑器
+		var editor = CodeMirror.fromTextArea(document.getElementById("text"), {
+				lineNumbers: true,  //显示行号
+				lineWrapping: false, //false则超过宽带会显示水平滚动条，true不会显示
+				gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+				indentWithTabs: true,  //前 N*tabSize 个空格是否应替换为 N 个制表符
+				smartIndent: true,   //上下文相关缩进（即是否缩进与之前的行相同）
+				autofocus: true,
+				styleActiveLine: true, //光标所在行高亮
+				placeholder: "点此输入, 第一行无需输入后缀名",
+		});
+		editor.setSize('100%', '800px');
 </script>
 <br><footer><center><br><br><br><br><a href="/">首页</a> - <a href="/about">关于</a> - <a href="/me">我的</a> - <a href="/login">注册或登陆</a> - <a href="https://github.com/wzk0/textboard">源代码</a></center></footer>
 </article>

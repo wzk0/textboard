@@ -9,6 +9,12 @@ body .markdown-body
   padding: 45px;
 }
 
+.pure_div{
+   border-style: solid;
+   border-radius: 5px;
+   border-color: gray;
+}
+
 .ipt {
   width: 40%;
   height: 40px;

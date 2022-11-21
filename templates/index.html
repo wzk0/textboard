@@ -4,6 +4,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/addon/selection/active-line.js"></script>
+	<script src="https://codemirror.net/5/addon/display/placeholder.js"></script>
 	<title>Share Your Text! - Text Board</title>
 </head>
 <article class="markdown-body">
@@ -14,18 +18,24 @@
 {% else %}
 <br><br><a href="/import">从网络导入</a> │ <a href="/about">查看详情与用法</a> │ <a href="/me">查看我的所有文本</a><br><br>
 {% endif %}
-<form method="post"><br><b><li>编辑区</b></li><br><br>
-<textarea style="height: 200px;" class="k" required="" name="text" id="text" wrap="hard" autofocus placeholder="点此输入. 首行请输入后缀名, 如: txt"></textarea><br><br>
+<form method="post"><br><b><li>编辑区</b></li><br><br><div class="pure_div">
+<textarea class="form-control" id="text" name="text"></textarea></div><br><br>
 <center><br><input style="cursor:pointer" class="b" type="submit" value="写完了"></center></form><br>
 </body>
-<script>
-    var textarea = document.querySelector('textarea');
-    
-    textarea.addEventListener('input', (e) => {
-        textarea.style.height = '100px';
-        textarea.style.height = e.target.scrollHeight + 'px';
-    });
-</script>
+<script type="text/javascript" >
+		//根据DOM元素的id构造出一个编辑器
+		var editor = CodeMirror.fromTextArea(document.getElementById("text"), {
+				lineNumbers: true,  //显示行号
+				lineWrapping: false, //false则超过宽带会显示水平滚动条，true不会显示
+				gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+				indentWithTabs: true,  //前 N*tabSize 个空格是否应替换为 N 个制表符
+				smartIndent: true,   //上下文相关缩进（即是否缩进与之前的行相同）
+				autofocus: true,
+				styleActiveLine: true, //光标所在行高亮
+				placeholder: "点此输入. 首行请输入后缀名, 如: txt",
+		});
+		editor.setSize('100%', '800px');
+	</script>
 <br><center><hr><br><br><code>一个快速记录或分享纯文本, 且<b>无审核</b>的在线工具. 你的文本在此将<b>无加密</b>地储存在服务器端.</code><br><br><br><b>已注册用户: {{ user_num }}位 ‧ 已储存文本: {{ num }}个</b></center>
 <footer><center><br><br><br><br><a href="/">首页</a> - <a href="/about">关于</a> - <a href="/me">我的</a> - <a href="/login">注册或登陆</a> - <a href="https://github.com/wzk0/textboard">源代码</a></center></footer>
 </article>
